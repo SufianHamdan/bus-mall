@@ -1,0 +1,17 @@
+
+#images-section{
+  max-width: 90%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+
+main section #left-image, #middle-image, #right-image {
+  width: 300px;
+  height: 300px;
+  border: 1px solid #00000057;
+  box-shadow: 3px 3px 6px #0000006b;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+}
