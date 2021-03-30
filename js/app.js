@@ -15,8 +15,15 @@ let counter = 0;
 
 let votesArr = [];
 let viewsArr = [];
-
 let numbers = [];
+//let previousItrUsedImageIds = [];
+
+
+
+const leftImage = document.getElementById('left-image');
+const middleImage = document.getElementById('middle-image');
+const rightImage = document.getElementById('right-image');
+const imagesSection = document.getElementById('images-section');
 
 function Product(name) {
   this.name = name;
@@ -26,21 +33,32 @@ function Product(name) {
   Product.allProducts.push(this);
 }
 Product.allProducts = [];
+let productsAlreadyInitialized = false;
+getProducts();
 
 
-for (let i = 0; i < imageNames.length; i++) {
-  new Product(imageNames[i]);
+if (!productsAlreadyInitialized){
+  for (let i = 0; i < imageNames.length; i++) {
+    new Product(imageNames[i]);
+  }
 }
 
-// console.log(Product.allProducts);
+function setProducts(){
+  localStorage.getItem('AllProducts');
+  let data = JSON.stringify(Product.allProducts);
+  localStorage.setItem('AllProducts', data);
+}
 
 
+function getProducts(){
+  let objString = localStorage.getItem('AllProducts');
+  if (objString !== null){
+    productsAlreadyInitialized = true;
+    let normalObj = JSON.parse(objString);
+    Product.allProducts = normalObj;
+  }
+}
 
-
-const leftImage = document.getElementById('left-image');
-const middleImage = document.getElementById('middle-image');
-const rightImage = document.getElementById('right-image');
-const imagesSection = document.getElementById('images-section');
 
 displayImagesForVotes();
 
@@ -49,7 +67,6 @@ function displayImagesForVotes() {
 
 
   getUniqueNumb();
-  console.log(numbers);
 
   leftImage.src = Product.allProducts[leftInd].path;
   leftImage.alt = Product.allProducts[leftInd].name;
@@ -67,13 +84,9 @@ function displayImagesForVotes() {
   Product.allProducts[middleInd].views++;
   Product.allProducts[rightInd].views++;
 
+  setProducts();
 
 }
-
-
-
-
-
 
 
 imagesSection.addEventListener('click', userInteraction);
@@ -89,6 +102,7 @@ function userInteraction(event) {
     else {
       Product.allProducts[rightInd].votes++;
     }
+    setProducts();
     displayImagesForVotes();
     counter++;
   }
@@ -126,8 +140,7 @@ function removeImageExt(name) {
 }
 
 function getUniqueNumb() {
-
-  let min, max, r, n, p;
+  let min, max, r, n, exist;
 
   min = 0;
   max = imageNames.length - 1;
@@ -136,20 +149,26 @@ function getUniqueNumb() {
   for (let i = 0; i < r; i++) {
     do {
       n = Math.floor(Math.random() * (max - min + 1)) + min;
-      p = numbers.includes(n);
-      if (!p) {
-        numbers.push(Number(n));
+      exist = numbers.includes(n);
+      if (!exist) {
+        if (i === 0 ){
+          leftInd = n;
+        }else if (i === 1 ){
+          middleInd = n;
+        }else {
+          rightInd = n;
+        }
+        numbers.push(n);
       }
     }
-    while (p);
+    while (exist);
   }
-  for (let i = 0; i < numbers.length; i++) {
-    leftInd = numbers[i];
-    i++;
-    middleInd = numbers[i];
-    i++;
-    rightInd = numbers[i];
-  }
+
+  numbers = [];
+
+  numbers[0] = leftInd;
+  numbers[1] = middleInd;
+  numbers[2] = rightInd;
 
 }
 
