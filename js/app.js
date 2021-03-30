@@ -89,10 +89,6 @@ function userInteraction(event) {
     else {
       Product.allProducts[rightInd].votes++;
     }
-    // while(numbers.includes(leftInd) && numbers.includes(middleInd) && numbers.includes(rightInd))
-    // {
-    //   getUniqueNumb();
-    // }
     displayImagesForVotes();
     counter++;
   }
