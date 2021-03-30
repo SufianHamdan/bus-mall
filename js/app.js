@@ -16,6 +16,7 @@ let counter = 0;
 let votesArr = [];
 let viewsArr = [];
 
+let numbers = [];
 
 function Product(name) {
   this.name = name;
@@ -45,7 +46,10 @@ displayImagesForVotes();
 
 
 function displayImagesForVotes() {
+
+
   getUniqueNumb();
+  console.log(numbers);
 
   leftImage.src = Product.allProducts[leftInd].path;
   leftImage.alt = Product.allProducts[leftInd].name;
@@ -62,7 +66,14 @@ function displayImagesForVotes() {
   Product.allProducts[leftInd].views++;
   Product.allProducts[middleInd].views++;
   Product.allProducts[rightInd].views++;
+
+
 }
+
+
+
+
+
 
 
 imagesSection.addEventListener('click', userInteraction);
@@ -78,6 +89,10 @@ function userInteraction(event) {
     else {
       Product.allProducts[rightInd].votes++;
     }
+    // while(numbers.includes(leftInd) && numbers.includes(middleInd) && numbers.includes(rightInd))
+    // {
+    //   getUniqueNumb();
+    // }
     displayImagesForVotes();
     counter++;
   }
@@ -114,15 +129,13 @@ function removeImageExt(name) {
   return name.substring(0, name.indexOf('.'));
 }
 
-
-
 function getUniqueNumb() {
-  let numbers = [];
+
   let min, max, r, n, p;
 
   min = 0;
   max = imageNames.length - 1;
-  r = 6;
+  r = 3;
 
   for (let i = 0; i < r; i++) {
     do {
@@ -141,7 +154,11 @@ function getUniqueNumb() {
     i++;
     rightInd = numbers[i];
   }
+
 }
+
+
+
 
 function chartDrow() {
   console.log(votesArr);
@@ -171,5 +188,3 @@ function chartDrow() {
     options: {}
   });
 }
-
-
